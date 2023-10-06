@@ -1,15 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Event;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
     public function index()
     {
-        return view('events.index');
+        $events = Event::all();
+        return view('events.index', compact('events'));
     }
+
 
     public function create()
     {
@@ -22,7 +24,7 @@ class EventController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'date' => 'required|date',
-            'time' => 'required|time',
+            'time' => 'required|date_format:H:i',
             'location' => 'required|string|max:255',
             'description' => 'required|string',
         ]);

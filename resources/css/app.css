@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.date-picker::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+.time-picker::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}

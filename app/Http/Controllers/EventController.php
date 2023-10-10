@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
 
 class EventController extends Controller
 {
@@ -47,5 +48,24 @@ class EventController extends Controller
         $event = Event::findOrFail($id);
         return view('events.show', compact('event'));
     }
+
+    public function participate($id)
+    {
+        if (auth()->check()) {
+            $event = Event::findOrFail($id);
+            $user = auth()->user();
+
+            // Vérifier si l'utilisateur participe déjà à l'événement
+            if (!$event->participants->contains($user)) {
+                $event->participants()->attach($user);
+                return redirect()->route('events.show', $id)->with('success', 'Vous participez maintenant à cet événement!');
+            }
+
+            return redirect()->route('events.show', $id)->with('error', 'Vous avez déjà participé à cet événement.');
+        }
+
+        return redirect()->route('login')->with('error', 'Veuillez vous connecter pour participer à cet événement.');
+    }
+
 
 }

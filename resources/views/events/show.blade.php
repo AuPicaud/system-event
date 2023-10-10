@@ -15,6 +15,24 @@
                     <p>Heure: {{ $event->time }}</p>
                     <p>Lieu: {{ $event->location }}</p><br>
                     <p>Description: {{ $event->description }}</p>
+                    <br>
+                    <div class="flex justify-end">
+                        @auth
+                            <form action="{{ route('events.participate', $event->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ">
+                                    Participer
+                                </button>
+                            </form>
+                        @endauth
+                    </div>
+                    <br>
+                    <h2>Participants:</h2>
+                    <ul>
+                        @foreach($event->participants as $participant)
+                            <li>{{ $participant->name }}</li>
+                        @endforeach
+                    </ul>
                 </div>
             </div>
         </div>

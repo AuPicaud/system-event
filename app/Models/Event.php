@@ -16,4 +16,10 @@ class Event extends Model
         'location',
         'description',
     ];
+
+    public function participants()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
 }

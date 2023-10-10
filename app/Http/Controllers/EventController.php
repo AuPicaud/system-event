@@ -67,5 +67,21 @@ class EventController extends Controller
         return redirect()->route('login')->with('error', 'Veuillez vous connecter pour participer à cet événement.');
     }
 
+    public function cancelParticipation($id)
+    {
+        if (auth()->check()) {
+            $event = Event::findOrFail($id);
+            $user = auth()->user();
 
+            // Vérifier si l'utilisateur participe à l'événement
+            if ($event->participants->contains($user)) {
+                $event->participants()->detach($user);
+                return redirect()->route('events.show', $id)->with('success', 'Vous ne participez plus à cet événement.');
+            }
+
+            return redirect()->route('events.show', $id)->with('error', 'Vous ne participez pas à cet événement.');
+        }
+
+        return redirect()->route('login')->with('error', 'Veuillez vous connecter pour retirer votre participation à cet événement.');
+    }
 }

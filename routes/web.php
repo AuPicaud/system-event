@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/events', [EventController::class, 'store'])->name('events.store');
     Route::get('/events/{id}', [EventController::class,'show'])->name('events.show');
     Route::post('/events/{id}/participate', [EventController::class,'participate'])->name('events.participate');
+    Route::delete('/events/{id}/participate', [EventController::class,'cancelParticipation'])->name('events.cancelParticipation');
 });
 
 require __DIR__.'/auth.php';

@@ -16,23 +16,26 @@
                     <p>Lieu: {{ $event->location }}</p><br>
                     <p>Description: {{ $event->description }}</p>
                     <br>
-                    <div class="flex justify-end">
-                        @auth
-                            <form action="{{ route('events.participate', $event->id) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ">
-                                    Participer
-                                </button>
-                            </form>
-                        @endauth
-                    </div>
-                    <br>
-                    <h2>Participants:</h2>
-                    <ul>
-                        @foreach($event->participants as $participant)
-                            <li>{{ $participant->name }}</li>
-                        @endforeach
-                    </ul>
+                    @auth
+                        <form action="{{ $event->participants->contains(auth()->user()) ? route('events.cancelParticipation', $event->id) : route('events.participate', $event->id) }}" method="POST">
+                            @csrf
+                            @if($event->participants->contains(auth()->user()))
+                                @method('DELETE')
+                                <p>Vous participez à événement.</p>
+                                <div class="flex justify-end">
+                                    <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                                        Retirer ma participation
+                                    </button>
+                                </div>
+                            @else
+                                <div class="flex justify-end">
+                                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                        Participer
+                                    </button>
+                                </div>
+                            @endif
+                        </form>
+                    @endauth
                 </div>
             </div>
         </div>

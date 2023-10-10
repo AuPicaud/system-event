@@ -42,4 +42,10 @@ class EventController extends Controller
         return redirect()->route('events.index')->with('success', 'Événement créé avec succès.');
     }
 
+    public function show($id)
+    {
+        $event = Event::findOrFail($id);
+        return view('events.show', compact('event'));
+    }
+
 }

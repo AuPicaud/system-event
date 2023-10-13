@@ -37,7 +37,11 @@
                                 @endif
                             </form>
                         @else
-                            <p>Vous êtes l'organisateur de cet événement.</p>
+                            <div class="flex justify-end">
+                                <a href="{{ route('events.edit', $event->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                    Modifier
+                                </a>
+                            </div>
                         @endif
                     @endauth
                 </div>

@@ -106,4 +106,13 @@ class EventController extends Controller
 
         return redirect()->route('events.index')->with('success', 'Événement mis à jour avec succès.');
     }
+
+    public function destroy($id)
+    {
+        $event = Event::findOrFail($id);
+        $event->delete();
+
+        return redirect()->route('events.index')->with('success', 'Événement supprimé avec succès.');
+    }
+
 }

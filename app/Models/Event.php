@@ -15,11 +15,17 @@ class Event extends Model
         'time',
         'location',
         'description',
+        'organizer_id',
     ];
 
     public function participants()
     {
         return $this->belongsToMany(User::class);
+    }
+
+    public function organizer_id()
+    {
+        return $this->belongsTo(User::class);
     }
 
 }

@@ -37,6 +37,7 @@ class EventController extends Controller
             'time' => $request->time,
             'location' => $request->location,
             'description' => $request->description,
+            'organizer_id' => auth()->user()->id,
         ]);
 
         // Redirigez l'utilisateur vers une page de confirmation ou la liste des événements

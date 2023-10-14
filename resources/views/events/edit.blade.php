@@ -41,21 +41,22 @@
                             <textarea id="description" name="description" rows="5" class="mt-1 p-2 w-full border rounded dark:bg-gray-900"> {{ old('description', $event->description) }}</textarea>
                         </div>
 
-                        <div class="mb-4 flex justify-between">
+                        <div class="mb-4">
                             <button type="submit" class="bg-gray-300 text-gray-800 dark:text-gray-200 font-bold py-2 px-4 rounded hover:bg-gray-400">
                                 Mettre à jour l'événement
                             </button>
-
-                            <form action="{{ route('events.destroy', $event->id) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="bg-gray-300 text-gray-800 dark:text-gray-200 font-bold py-2 px-4 rounded hover:bg-gray-400">
-                                    Supprimer l'événement
-                                </button>
-                            </form>
                         </div>
-
                     </form>
+
+                    <div class="mb-4 justify-end">
+                        <form action="{{ route('events.destroy', $event->id) }}" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer cet événement?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="bg-gray-300 text-gray-800 dark:text-gray-200 font-bold py-2 px-4 rounded hover:bg-gray-400">
+                                Supprimer l'événement
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

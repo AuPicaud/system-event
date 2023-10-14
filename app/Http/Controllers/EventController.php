@@ -80,6 +80,8 @@ class EventController extends Controller
     {
         $event = Event::findOrFail($id);
 
+        $event->users()->detach();
+
         // Vérifiez si l'événement a un utilisateur associé avant d'envoyer l'e-mail
         if ($event->user) {
             // Envoyer l'e-mail avant la suppression

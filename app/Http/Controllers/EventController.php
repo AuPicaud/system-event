@@ -9,7 +9,7 @@ class EventController extends Controller
 {
     public function index()
     {
-        $events = Event::all();
+        $events = Event::paginate(5);
         return view('events.index', compact('events'));
     }
 
@@ -50,6 +50,35 @@ class EventController extends Controller
         return view('events.show', compact('event'));
     }
 
+    public function edit($id)
+    {
+        $event = Event::findOrFail($id);
+        return view('events.edit', compact('event'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $event = Event::findOrFail($id);
+        $event->update([
+            'name' => $request->input('name'),
+            'date' => $request->input('date'),
+            'time' => $request->input('time'),
+            'location' => $request->input('location'),
+            'description' => $request->input('description'),
+            // ... (autres champs à mettre à jour)
+        ]);
+
+        return redirect()->route('events.index')->with('success', 'Événement mis à jour avec succès.');
+    }
+
+    public function destroy($id)
+    {
+        $event = Event::findOrFail($id);
+        $event->delete();
+
+        return redirect()->route('events.index')->with('success', 'Événement supprimé avec succès.');
+    }
+
     public function participate($id)
     {
         if (auth()->check()) {
@@ -86,33 +115,11 @@ class EventController extends Controller
         return redirect()->route('login')->with('error', 'Veuillez vous connecter pour retirer votre participation à cet événement.');
     }
 
-    public function edit($id)
+    public function participations()
     {
-        $event = Event::findOrFail($id);
-        return view('events.edit', compact('event'));
-    }
-
-    public function update(Request $request, $id)
-    {
-        $event = Event::findOrFail($id);
-        $event->update([
-            'name' => $request->input('name'),
-            'date' => $request->input('date'),
-            'time' => $request->input('time'),
-            'location' => $request->input('location'),
-            'description' => $request->input('description'),
-            // ... (autres champs à mettre à jour)
-        ]);
-
-        return redirect()->route('events.index')->with('success', 'Événement mis à jour avec succès.');
-    }
-
-    public function destroy($id)
-    {
-        $event = Event::findOrFail($id);
-        $event->delete();
-
-        return redirect()->route('events.index')->with('success', 'Événement supprimé avec succès.');
+        $user = auth()->user();
+        $participatedEvents = $user->participate;
+        return view('dashboard.participations', compact('participatedEvents'));
     }
 
 }

@@ -8,13 +8,13 @@ use App\Events\EventCreated;
 
 class EventCreatedListener implements ShouldQueue
 {
-//    /**
-//     * Create the event listener.
-//     */
-//    public function __construct()
-//    {
-//        //
-//    }
+    /**
+     * Create the event listener.
+     */
+    public function __construct()
+    {
+        //
+    }
 
     /**
      * Handle the event.

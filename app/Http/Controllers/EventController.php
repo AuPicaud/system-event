@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use App\Events\EventCreated;
+use App\Mail\EventDeleted;
+use Illuminate\Support\Facades\Mail;
 
 class EventController extends Controller
 {
@@ -75,6 +77,13 @@ class EventController extends Controller
     public function destroy($id)
     {
         $event = Event::findOrFail($id);
+
+        // Vérifiez si l'événement a un utilisateur associé avant d'envoyer l'e-mail
+        if ($event->user) {
+            // Envoyer l'e-mail avant la suppression
+            Mail::to($event->user->email)->send(new EventDeleted());
+        }
+
         $event->delete();
 
         return redirect()->route('events.index')->with('success', 'Événement supprimé avec succès.');

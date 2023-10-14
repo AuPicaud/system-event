@@ -23,7 +23,7 @@ class Event extends Model
         return $this->belongsToMany(User::class);
     }
 
-    public function organizer_id()
+    public function organizer()
     {
         return $this->belongsTo(User::class);
     }

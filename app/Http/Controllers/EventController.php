@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Event;
 use Illuminate\Http\Request;
-use Illuminate\Database\QueryException;
+use App\Events\EventCreated;
 
 class EventController extends Controller
 {
@@ -31,7 +31,7 @@ class EventController extends Controller
         ]);
 
         // Créez un nouvel événement dans la base de données
-        Event::create([
+        $event = Event::create([
             'name' => $request->name,
             'date' => $request->date,
             'time' => $request->time,
@@ -39,6 +39,7 @@ class EventController extends Controller
             'description' => $request->description,
             'organizer_id' => auth()->user()->id,
         ]);
+        event(new EventCreated($event));
 
         // Redirigez l'utilisateur vers une page de confirmation ou la liste des événements
         return redirect()->route('events.index')->with('success', 'Événement créé avec succès.');

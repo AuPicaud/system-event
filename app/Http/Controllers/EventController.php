@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Event;
-use Illuminate\Http\Request;
 use App\Events\EventCreated;
 use App\Mail\EventDeleted;
+
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class EventController extends Controller
@@ -125,11 +127,15 @@ class EventController extends Controller
         return redirect()->route('login')->with('error', 'Veuillez vous connecter pour retirer votre participation à cet événement.');
     }
 
-    public function participations()
+    public function userEvents()
     {
-        $user = auth()->user();
-        $participatedEvents = $user->participate;
-        return view('dashboard.participations', compact('participatedEvents'));
+        if (auth()->check()) {
+            $user = auth()->user();
+            $events = $user->events ?? []; // Utilisez le null coalescing operator pour définir un tableau vide si $user->events est null
+            return view('events.user_events', compact('events'));
+        }
+
+        return redirect()->route('login')->with('error', 'Veuillez vous connecter pour accéder à vos événements.');
     }
 
 }

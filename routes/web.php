@@ -36,9 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/events/{id}/edit', [EventController::class,'edit'])->name('events.edit');
     Route::put('/events/{id}', [EventController::class,'update'])->name('events.update');
     Route::delete('/events/{id}', [EventController::class,'destroy'])->name('events.destroy');
-    Route::get('/dashboard/participations', [EventController::class,'participations'])->name('dashboard.participations');
-
-
+    Route::get('/mes-evenements', [EventController::class,'userEvents'])->name('user.events');
 });
 
 require __DIR__.'/auth.php';

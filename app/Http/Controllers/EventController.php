@@ -138,4 +138,16 @@ class EventController extends Controller
         return redirect()->route('login')->with('error', 'Veuillez vous connecter pour accéder à vos événements.');
     }
 
+    public function userParticipations()
+    {
+        if (auth()->check()) {
+            $user = auth()->user();
+            $participatedEvents = $user->participatedEvents ?? [];
+            return view('events.user_participations', compact('participatedEvents'));
+        }
+
+        return redirect()->route('login')->with('error', 'Veuillez vous connecter pour accéder à vos participations.');
+    }
+
+
 }

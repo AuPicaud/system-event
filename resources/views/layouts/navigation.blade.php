@@ -43,6 +43,9 @@
                         <x-dropdown-link :href="route('user.events')">
                             {{ __('Mes événements') }}
                         </x-dropdown-link>
+                        <x-dropdown-link :href="route('user.participations')">
+                            {{ __('Mes participations') }}
+                        </x-dropdown-link>
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
@@ -94,6 +97,9 @@
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('user.events')">
                     {{ __('Mes événements') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('user.participations')">
+                    {{ __('Mes participations') }}
                 </x-responsive-nav-link>
 
                 <!-- Authentication -->

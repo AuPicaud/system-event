@@ -10,7 +10,7 @@
                             <p>Date: {{ $event->date }}</p>
                             <p>Heure: {{ $event->time }}</p>
                             <p>Lieu: {{ $event->location }}</p>
-                            <p>Description: {{Str::limit($event->description, 120) }}</p>
+                            <p>Description: {{Str::limit($event->description, 100) }}</p>
                             <div class="flex justify-end">
                                 <a href="{{ route('events.show', $event->id) }}" class="btn btn-primary">Détail</a>
                             </div>

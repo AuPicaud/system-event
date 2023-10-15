@@ -25,28 +25,37 @@ class EventController extends Controller
 
     public function store(Request $request)
     {
-        // Validez les données du formulaire
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'date' => 'required|date',
-            'time' => 'required|date_format:H:i',
-            'location' => 'required|string|max:255',
-            'description' => 'required|string',
-        ]);
+        // Vérifiez si l'utilisateur est authentifié
+        if (auth()->check()) {
+            // Validez les données du formulaire
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'date' => 'required|date',
+                'time' => 'required|date_format:H:i',
+                'location' => 'required|string|max:255',
+                'description' => 'required|string',
+            ]);
 
-        // Créez un nouvel événement dans la base de données
-        $event = Event::create([
-            'name' => $request->name,
-            'date' => $request->date,
-            'time' => $request->time,
-            'location' => $request->location,
-            'description' => $request->description,
-            'organizer_id' => auth()->user()->id,
-        ]);
-        event(new EventCreated($event));
+            $user = auth()->user();
 
-        // Redirigez l'utilisateur vers une page de confirmation ou la liste des événements
-        return redirect()->route('events.index')->with('success', 'Événement créé avec succès.');
+            // Créez un nouvel événement dans la base de données
+            Event::create([
+                'name' => $request->name,
+                'date' => $request->date,
+                'time' => $request->time,
+                'location' => $request->location,
+                'description' => $request->description,
+                'organizer_id' => $user->id,
+            ]);
+
+            // event(new EventCreated($event));
+
+            // Redirigez l'utilisateur vers une page de confirmation ou la liste des événements
+            return redirect()->route('events.index')->with('success', 'Événement créé avec succès.');
+        } else {
+            // Redirigez l'utilisateur vers la page de connexion s'il n'est pas authentifié
+            return redirect()->route('login')->with('error', 'Veuillez vous connecter pour créer un événement.');
+        }
     }
 
     public function show($id)
@@ -70,7 +79,6 @@ class EventController extends Controller
             'time' => $request->input('time'),
             'location' => $request->input('location'),
             'description' => $request->input('description'),
-            // ... (autres champs à mettre à jour)
         ]);
 
         return redirect()->route('events.index')->with('success', 'Événement mis à jour avec succès.');
@@ -127,17 +135,6 @@ class EventController extends Controller
         }
 
         return redirect()->route('login')->with('error', 'Veuillez vous connecter pour retirer votre participation à cet événement.');
-    }
-
-    public function userEvents()
-    {
-        if (auth()->check()) {
-            $user = auth()->user();
-            $events = $user->events ?? []; // Utilisez le null coalescing operator pour définir un tableau vide si $user->events est null
-            return view('events.user_events', compact('events'));
-        }
-
-        return redirect()->route('login')->with('error', 'Veuillez vous connecter pour accéder à vos événements.');
     }
 
     public function userParticipations()

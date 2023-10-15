@@ -21,7 +21,7 @@ class Event extends Model
 
     public function participants()
     {
-        return $this->belongsToMany(User::class, 'event_user');
+        return $this->belongsToMany(User::class, 'event_user', 'event_id', 'user_id')->withTimestamps();
     }
 
     public function organizer()
@@ -29,9 +29,8 @@ class Event extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function users()
+    public function user()
     {
-        return $this->belongsToMany(User::class, 'event_user'); // Assurez-vous d'ajuster le nom de la table pivot si nécessaire
+        return $this->belongsTo(User::class);
     }
-
 }

@@ -40,9 +40,6 @@
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profil') }}
                         </x-dropdown-link>
-                        <x-dropdown-link :href="route('user.events')">
-                            {{ __('Mes événements') }}
-                        </x-dropdown-link>
                         <x-dropdown-link :href="route('user.participations')">
                             {{ __('Mes participations') }}
                         </x-dropdown-link>
@@ -94,9 +91,6 @@
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Profil') }}
-                </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('user.events')">
-                    {{ __('Mes événements') }}
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('user.participations')">
                     {{ __('Mes participations') }}

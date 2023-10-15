@@ -7,8 +7,8 @@
                     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-4">
                         <div class="p-6 text-gray-900 dark:text-gray-100">
                             <h2 class="text-xl font-semibold mb-2">{{ $event->name }}</h2>
-                            <p>Date: {{ $event->date }}</p>
-                            <p>Heure: {{ $event->time }}</p>
+                            <p>Date: {{ date('d F Y', strtotime($event->date)) }}</p>
+                            <p>Heure: {{ date('H:i', strtotime($event->time)) }}</p>
                             <p>Lieu: {{ $event->location }}</p>
                             <p>Description: {{Str::limit($event->description, 100) }}</p>
                             <div class="flex justify-end">

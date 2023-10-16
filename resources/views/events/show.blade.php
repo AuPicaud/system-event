@@ -6,8 +6,8 @@
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
                         <h1 class="text-2xl font-semibold mb-4">{{ $event->name }}</h1>
-                        <p>Date: {{ $event->date }}</p>
-                        <p>Heure: {{ $event->time }}</p>
+                        <p>Date: {{ date('d F Y', strtotime($event->date)) }}</p>
+                        <p>Heure: {{ date('H:i', strtotime($event->time)) }}</p>
                         <p>Lieu: {{ $event->location }}</p><br>
                         <p>Description: {{ $event->description }}</p>
                         <br>

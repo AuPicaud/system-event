@@ -39,7 +39,7 @@ class EventController extends Controller
             $user = auth()->user();
 
             // Créez un nouvel événement dans la base de données
-            Event::create([
+            $event = Event::create([
                 'name' => $request->name,
                 'date' => $request->date,
                 'time' => $request->time,
@@ -48,7 +48,7 @@ class EventController extends Controller
                 'organizer_id' => $user->id,
             ]);
 
-            // event(new EventCreated($event));
+            event(new EventCreated($event));
 
             // Redirigez l'utilisateur vers une page de confirmation ou la liste des événements
             return redirect()->route('events.index')->with('success', 'Événement créé avec succès.');

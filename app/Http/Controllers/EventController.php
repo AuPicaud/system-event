@@ -8,6 +8,7 @@ use App\Mail\EventDeleted;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Gate;
 
 class EventController extends Controller
 {
@@ -26,7 +27,7 @@ class EventController extends Controller
     public function store(Request $request)
     {
         // Vérifiez si l'utilisateur est authentifié
-        if (auth()->check()) {
+
             // Validez les données du formulaire
             $request->validate([
                 'name' => 'required|string|max:255',
@@ -52,10 +53,7 @@ class EventController extends Controller
 
             // Redirigez l'utilisateur vers une page de confirmation ou la liste des événements
             return redirect()->route('events.index')->with('success', 'Événement créé avec succès.');
-        } else {
-            // Redirigez l'utilisateur vers la page de connexion s'il n'est pas authentifié
-            return redirect()->route('login')->with('error', 'Veuillez vous connecter pour créer un événement.');
-        }
+
     }
 
     public function show($id)
@@ -73,6 +71,13 @@ class EventController extends Controller
     public function update(Request $request, $id)
     {
         $event = Event::findOrFail($id);
+
+        // Vérifiez si l'utilisateur est autorisé à mettre à jour l'événement.
+        if (Gate::denies('update', $event)) {
+            abort(403, 'Accès non autorisé');
+        }
+
+        // Mettez à jour l'événement ici.
         $event->update([
             'name' => $request->input('name'),
             'date' => $request->input('date'),

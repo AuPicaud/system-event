@@ -27,6 +27,6 @@ class EventCreatedListener implements ShouldQueue
         $createdEvent = $event->event;
 
         // Afficher une pop-up de notification après le chargement complet de la page
-        echo "<script>window.onload = function() { alert('Événement $createdEvent->name créé avec succès!'); }</script>";
+        echo "<script>alert('Événement $createdEvent->name créé avec succès!');</script>";
     }
 }
